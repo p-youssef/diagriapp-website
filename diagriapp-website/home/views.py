@@ -1,31 +1,40 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-from .models import AboutCompany, Article, NewsItem
-from .serializers import AboutCompanySerializer, ArticleSerializer, NewsItemSerializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from django.views.generic import ListView
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import *
 
 
-class ArticleListAPIView(ListAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
-class ArticleDetailAPIView(RetrieveAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
-class NewsItemListAPIView(ListAPIView):
-    queryset = NewsItem.objects.all()
-    serializer_class = NewsItemSerializer
-
-class NewsItemDetailAPIView(RetrieveAPIView):
-    queryset = NewsItem.objects.all()
-    serializer_class = NewsItemSerializer
+def home(request):
+    
+    context = {
+        'AboutCompany': AboutCompany.objects.all().first(),
+    }
+    return render(request, 'home.html', context)
 
 
-class AboutCompanyAPIView(APIView):
-    def get(self, request):
-        about_company = AboutCompany.objects.first()
-        if not about_company:
-            return Response({"error": "About Company configuration is missing."}, status=404)
-        serializer = AboutCompanySerializer(about_company)
-        return Response(serializer.data)
+
+def about(request):
+    
+    context = {
+        'AboutCompany': AboutCompany.objects.all().first(),
+    }
+    return render(request, 'about.html', context)
+
+
+class NewsItemsView(ListView):
+    model = NewsItem
+    template_name = 'news.html'
+    context_object_name = 'items'
+    paginate_by = 5  # This enables pagination
+    ordering = ['-publish_time'] 
+
+   
+
+
+class ArticlesView(ListView):
+    model = Article
+    template_name = 'articles.html'
+    context_object_name = 'articles'
+    paginate_by = 5  # This enables pagination
+    ordering = ['-release_date'] 
