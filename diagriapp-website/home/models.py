@@ -13,13 +13,19 @@ class Plant(models.Model):
 
 
 class AboutCompany(models.Model):
-    summary = models.TextField(verbose_name="ملخص")
-    goals = models.TextField(verbose_name="الأهداف")
-    mission = models.TextField(verbose_name="المهمة")
-    vision = models.TextField(verbose_name="الرؤية")
+    summary_title = models.CharField(max_length=100, verbose_name="عنوان الملخص", default="العنوان الافتراضي للملخص")
+    summary = models.TextField(verbose_name="نص الملخص")
+    goals_title = models.CharField(max_length=100, verbose_name="عنوان الأهداف", default="العنوان الافتراضي للأهداف")
+    goals = models.TextField(verbose_name="نص الأهداف")
+    mission_title = models.CharField(max_length=100, verbose_name="عنوان المهمة", default="العنوان الافتراضي للمهمة")
+    mission = models.TextField(verbose_name="نص المهمة")
+    vision_title = models.CharField(max_length=100, verbose_name="عنوان الرؤية", default="العنوان الافتراضي للرؤية")
+    vision = models.TextField(verbose_name="نص الرؤية")
     email = models.EmailField(verbose_name="البريد الإلكتروني")
     phone_number = models.CharField(max_length=15, verbose_name="رقم الهاتف")
-    link_to_app = models.URLField(verbose_name="رابط التطبيق")
+
+    link_to_app_store = models.URLField(verbose_name="رابط التطبيق على app store", null=True)
+    link_to_google_play = models.URLField(verbose_name="رابط التطبيق على google play", null=True)
 
     def save(self, *args, **kwargs):
         if AboutCompany.objects.exists() and not self.pk:

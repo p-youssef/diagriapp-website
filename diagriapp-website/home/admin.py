@@ -29,8 +29,8 @@ class AboutCompanyAdmin(admin.ModelAdmin):
         return super().change_view(request, object_id, form_url, extra_context)
 
     # Customize how fields are displayed
-    list_display = ('email', 'phone_number', 'link_to_app')  # Display key fields in the list view
-    fields = ('summary', 'goals', 'mission', 'vision', 'email', 'phone_number', 'link_to_app')  # Control field order
+    list_display = ('email', 'phone_number')  # Display key fields in the list view
+    fields = ('summary_title', 'summary',  'goals_title', 'goals', 'mission_title', 'mission', 'vision_title', 'vision', 'email', 'phone_number', 'link_to_app_store', 'link_to_google_play')  # Control field order
 
     # Add search and filtering options if applicable
     search_fields = ('email', 'phone_number')
